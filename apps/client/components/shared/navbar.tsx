@@ -20,7 +20,10 @@ const Navbar = () => {
           </h1>
         </Link>
 
-        <div className="justify-center items-center gap-5 hidden md:flex">
+        <div
+          className="justify-center items-center gap-5 hidden md:flex"
+          key={"ghgasdasg"}
+        >
           {navdata.map((item) => (
             <Link key={item.id} href={item.url} className="text-white text-lg">
               {item.name}
@@ -34,11 +37,13 @@ const Navbar = () => {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger className="bg-emerald-500 rounded-full p-2">
-              {/* <MenuIcon /> */}
               <Menu size={32} className="text-white" />
             </SheetTrigger>
             <SheetContent className="flex flex-col justify-between bg-emerald-300">
-              <div className="flex flex-col gap-5 text-black mt-5">
+              <div
+                className="flex flex-col gap-5 text-black mt-5"
+                key={"dasdasdasdasd"}
+              >
                 {navdata.map((item) => (
                   <SheetClose asChild>
                     <Link

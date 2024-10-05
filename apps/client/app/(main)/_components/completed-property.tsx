@@ -2,13 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import ScreenWrapper from "@/components/wrapper/screen-wrapper";
 import { completedpropertydata } from "@/datas";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 import "@/styles/dots.css";
-import { Timer } from "lucide-react";
 import Link from "next/link";
 
 const CompletedProperty = () => {

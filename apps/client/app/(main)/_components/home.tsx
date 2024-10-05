@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "@/components/shared/navbar";
 import ScreenWrapper from "@/components/wrapper/screen-wrapper";
 import AvatarReview from "./avatar-review";
 import BgLayer from "./bglayer";
@@ -19,7 +18,7 @@ const Home = () => {
           <p className="text-xl text-white text-center max-w-2xl mt-10">
             Track the real-time status of your property&apos;s construction
             effortlessly. Our 360-degree view offers instant insights into the
-            progress, ensuring you're always informed.
+            progress, ensuring you&apos;re always informed.
           </p>
         </div>
         <div className="hidden md:flex justify-around items-center bg-white/30 backdrop-blur-sm border-2 border-white rounded-3xl h-28 w-full mt-10 z-10">
