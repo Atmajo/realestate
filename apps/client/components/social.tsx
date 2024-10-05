@@ -5,7 +5,7 @@ import React from "react";
 
 const Socials = () => {
   return (
-    <div className="flex gap-5 mt-5">
+    <div className="flex justify-center lg:justify-start items-center gap-5 mt-5">
       {socialdata.map(({ id, name, icon, url }) => (
         <Link href={url} target="_blank" key={id}>
           <Image

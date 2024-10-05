@@ -12,7 +12,7 @@ const Home = () => {
           <AvatarReview />
         </div>
         <div className="flex flex-col justify-center items-center mt-20 md:mt-5 z-10">
-          <h1 className="font-[900] text-6xl md:text-8xl lg:text-9xl text-white text-center">
+          <h1 className="font-[900] text-6xl md:text-8xl text-white text-center">
             GATEWAY TO YOUR DREAM HOMES
           </h1>
           <p className="text-xl text-white text-center max-w-2xl mt-10">
