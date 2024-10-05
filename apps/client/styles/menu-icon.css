@@ -1,0 +1,40 @@
+.menu {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.menu span {
+  background: #fff;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.5s,
+    width 0.5s;
+}
+
+.menu .line-1 {
+  transform: translate(-50%, -50px);
+}
+
+.menu .line-3 {
+  transform: translate(-50%, 40px);
+}
+
+.openmenu .line-1 {
+  transform: translate(-50%, -50px) rotate(-45deg);
+}
+
+.openmenu .line-3 {
+  transform: translate(-50%, 40px) rotate(45deg);
+}
+
+.openmenu .line-2 {
+  width: 0;
+}
