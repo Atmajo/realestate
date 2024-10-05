@@ -45,12 +45,8 @@ const Navbar = () => {
                 key={"dasdasdasdasd"}
               >
                 {navdata.map((item) => (
-                  <SheetClose asChild>
-                    <Link
-                      key={item.id}
-                      href={item.url}
-                      className="text-black text-lg"
-                    >
+                  <SheetClose asChild key={item.id}>
+                    <Link href={item.url} className="text-black text-lg">
                       {item.name}
                     </Link>
                   </SheetClose>
