@@ -22,11 +22,11 @@ const Page = ({ params }: PropertyProps) => {
                 </Button>
                 <Share2 className="text-white" size={32} />
               </div>
-              <div className="flex flex-col justify-end items-end mt-20 md:mt-5 z-10">
-                <h1 className="font-semibold text-5xl text-white text-center">
+              <div className="flex flex-col justify-end items-end mt-5 md:mt-10 z-10">
+                <h1 className="font-semibold text-3xl md:text-5xl text-white text-center">
                   {data.name}
                 </h1>
-                <p className="text-white text-2xl mt-5">{data.place}</p>
+                <p className="text-white text-xl md:text-2xl mt-2 md:mt-5">{data.place}</p>
               </div>
             </div>
             <div className="home-bg"></div>
