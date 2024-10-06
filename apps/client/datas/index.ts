@@ -192,6 +192,14 @@ export const completedpropertydata = [
   },
 ];
 
+function calculateProgress(startDate: Date, endDate: Date): number {
+  const today = new Date();
+  const totalDuration = endDate.getTime() - startDate.getTime();
+  const elapsedDuration = today.getTime() - startDate.getTime();
+  const progress = Math.min((elapsedDuration / totalDuration) * 100, 100);
+  return progress;
+}
+
 export const socialdata = [
   {
     id: 1,

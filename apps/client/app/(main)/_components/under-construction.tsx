@@ -7,33 +7,37 @@ import Slider from "./slider";
 
 import "@/styles/dots.css";
 
-const CompletedProperty = () => {
+const UnderConstruction = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex(
         (prevIndex) => (prevIndex + 1) % completedpropertydata.length
       );
     }, 5000);
-    
+
     return () => clearInterval(timer);
   }, [completedpropertydata.length]);
-  
+
   return (
     <section className="py-10 md:py-20 px-10 md:px-20">
       <div className="flex md:flex-row flex-col justify-start md:justify-between items-start md:items-center gap-5">
         <div>
           <h1 className="text-[#333333] font-[800] text-3xl md:text-5xl">
-            Your Vision, Realized
+            On the Path to Completion
           </h1>
           <p className="text-[#000000] font-[400] text-lg md:text-xl mt-5 max-w-xl">
-            Step into your completed property—crafted to perfection, just the
-            way you envisioned.
+            Your property is taking shape—track every milestone as it moves
+            closer to fulfillment
           </p>
         </div>
         <div>
-          <Button variant="secondary" size="lg" className="font-semibold rounded-xl">
+          <Button
+            variant="secondary"
+            size="lg"
+            className="font-semibold rounded-xl"
+          >
             View All
           </Button>
         </div>
@@ -60,4 +64,4 @@ const CompletedProperty = () => {
   );
 };
 
-export default CompletedProperty;
+export default UnderConstruction;
