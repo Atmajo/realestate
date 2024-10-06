@@ -12,7 +12,7 @@ import { Menu } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="absolute top-0 left-0 w-full px-5 md:px-19 lg:px-32 z-10">
+    <nav className="absolute top-0 left-0 w-full px-5 md:px-19 lg:px-32 z-20">
       <div className="flex justify-between items-center border-b border-white w-full py-5 ">
         <Link href="/">
           <h1 className="text-3xl md:text-4xl font-semibold text-white">

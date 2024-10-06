@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <>
       <Home />
-      <div className=" bg-gradient-to-br from-white to-sky-200">
+      <div className=" ">
         <CompletedProperty />
         <UnderConstruction />
       </div>

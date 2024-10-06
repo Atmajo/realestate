@@ -2,14 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  @apply bg-gradient-to-br from-white to-sky-200;
+}
+
 .home-bg {
-  /* background:  no-repeat center center/cover; */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 10;
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.home-bg.slide-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.home-bg.slide-out {
+  opacity: 0;
+  transform: translateX(-100%);
 }
 
 .slide-in {

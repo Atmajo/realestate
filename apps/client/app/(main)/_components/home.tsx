@@ -28,10 +28,10 @@ const Home = () => {
   return (
     <section className="h-screen overflow-hidden">
       <ScreenWrapper>
-        <div className="flex justify-end items-end mt-32">
+        <div className="flex justify-end items-end mt-32 z-20">
           <AvatarReview />
         </div>
-        <div className="flex flex-col justify-center items-center mt-20 md:mt-5 z-10">
+        <div className="flex flex-col justify-center items-center mt-20 md:mt-5 z-20">
           <h1 className="font-[900] text-6xl md:text-8xl text-white text-center">
             GATEWAY TO YOUR DREAM HOMES
           </h1>
@@ -41,7 +41,7 @@ const Home = () => {
             progress, ensuring you&apos;re always informed.
           </p>
         </div>
-        <div className="hidden md:flex justify-around items-center bg-white/30 backdrop-blur-sm border-2 border-white rounded-3xl h-28 w-full mt-10 z-10">
+        <div className="hidden md:flex justify-around items-center bg-white/30 backdrop-blur-sm border-2 border-white rounded-3xl h-28 w-full mt-10 z-20">
           <h1 className="text-lg md:text-xl lg:text-3xl font-semibold text-white">
             Portfolio Management
           </h1>

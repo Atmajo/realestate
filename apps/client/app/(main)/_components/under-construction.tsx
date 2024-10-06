@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { completedpropertydata } from "@/datas";
+import { underconstructiondata } from "@/datas";
 import React, { useEffect, useState } from "react";
 import Slider from "./slider";
 
@@ -13,15 +13,15 @@ const UnderConstruction = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex(
-        (prevIndex) => (prevIndex + 1) % completedpropertydata.length
+        (prevIndex) => (prevIndex + 1) % underconstructiondata.length
       );
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [completedpropertydata.length]);
+  }, [underconstructiondata.length]);
 
   return (
-    <section className="py-10 md:py-20 px-10 md:px-20">
+    <section className="px-10 md:px-20">
       <div className="flex md:flex-row flex-col justify-start md:justify-between items-start md:items-center gap-5">
         <div>
           <h1 className="text-[#333333] font-[800] text-3xl md:text-5xl">
@@ -44,12 +44,12 @@ const UnderConstruction = () => {
       </div>
       <div className="mt-10 mb-20">
         <Slider
-          data={completedpropertydata}
+          data={underconstructiondata}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
         />
         <div className="dots">
-          {completedpropertydata.map((_, index) => (
+          {underconstructiondata.map((_, index) => (
             <span
               key={index}
               className={`dot ${index === currentIndex ? "active" : ""}`}

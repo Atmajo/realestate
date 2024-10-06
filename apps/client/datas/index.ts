@@ -192,6 +192,51 @@ export const completedpropertydata = [
   },
 ];
 
+export const underconstructiondata = [
+  {
+    id: 1,
+    name: "Natural Aqua Waves",
+    company: "By Natural Group",
+    location: "Narendrapur, South Kolkata, Kolkata",
+    size: "3 BHK Apartment",
+    price: "₹42.19 L - 48.0 L",
+    image: "/images/property1.jpeg",
+    startDate: new Date("2024-08-10"),
+    endDate: new Date("2025-08-10"),
+    link: "/property/1",
+  },
+  {
+    id: 2,
+    name: "Property 2",
+    location: "Location 2",
+    price: "Price 2",
+    image: "/images/property2.png",
+    startDate: new Date("2024-08-10"),
+    endDate: new Date("2025-08-10"),
+    link: "/property/2",
+  },
+  {
+    id: 3,
+    name: "Property 3",
+    location: "Location 3",
+    price: "Price 3",
+    image: "/images/property3.jpeg",
+    startDate: new Date("2024-08-10"),
+    endDate: new Date("2025-08-10"),
+    link: "/property/3",
+  },
+  {
+    id: 4,
+    name: "Property 4",
+    location: "Location 4",
+    price: "Price 4",
+    image: "/images/property4.jpeg",
+    startDate: new Date("2024-08-10"),
+    endDate: new Date("2025-08-10"),
+    link: "/property/4",
+  },
+];
+
 function calculateProgress(startDate: Date, endDate: Date): number {
   const today = new Date();
   const totalDuration = endDate.getTime() - startDate.getTime();

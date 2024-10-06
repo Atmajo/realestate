@@ -29,11 +29,3 @@
   transform: translateY(-50%);
   z-index: 1;
 }
-
-.slider-button:first-of-type {
-  left: 10px;
-}
-
-.slider-button:last-of-type {
-  right: 10px;
-}
