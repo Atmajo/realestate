@@ -3,13 +3,12 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navdata } from "@/datas";
 import Link from "next/link";
 import React from "react";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 
 const Navbar = () => {
   return (
