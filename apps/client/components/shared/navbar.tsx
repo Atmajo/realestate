@@ -3,12 +3,13 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navdata } from "@/datas";
 import Link from "next/link";
 import React from "react";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -29,7 +30,7 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <Button variant={"secondary"} size={"lg"}>
+          <Button variant={"secondary"} size={"lg"} className="rounded-xl">
             Book Now
           </Button>
         </div>
@@ -52,7 +53,7 @@ const Navbar = () => {
                   </SheetClose>
                 ))}
               </div>
-              <Button variant={"secondary"} size={"lg"}>
+              <Button variant={"secondary"} size={"default"} className="rounded-xl">
                 Book Now
               </Button>
             </SheetContent>

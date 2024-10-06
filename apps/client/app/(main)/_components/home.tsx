@@ -1,10 +1,30 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import ScreenWrapper from "@/components/wrapper/screen-wrapper";
 import AvatarReview from "./avatar-review";
 import BgLayer from "./bglayer";
 import Separator from "./separator";
+import { homeimageslider } from "@/datas";
 
 const Home = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slide, setSlide] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSlide(true);
+      setTimeout(() => {
+        setCurrentIndex(
+          (prevIndex) => (prevIndex + 1) % homeimageslider.length
+        );
+        setSlide(false);
+      }, 0);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [homeimageslider.length]);
+
   return (
     <section className="h-screen overflow-hidden">
       <ScreenWrapper>
@@ -35,8 +55,24 @@ const Home = () => {
           </h1>
         </div>
       </ScreenWrapper>
-      <div className="home-bg"></div>
-      <BgLayer />
+      <div className="flex flex-row">
+        {homeimageslider.map(
+          (data, index) =>
+            index === currentIndex && (
+              <div
+                key={data.id}
+                className={`home-bg ${slide ? "slide-out" : "slide-in"}`}
+                style={{
+                  backgroundImage: `url(${data.url})`,
+                  backgroundSize: "cover",
+                  backgroundOrigin: "center",
+                  transition: "opacity 0.5s ease",
+                }}
+              ></div>
+            )
+        )}
+      </div>
+      {!slide && <BgLayer />}
     </section>
   );
 };
