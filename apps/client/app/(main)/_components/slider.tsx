@@ -1,5 +1,4 @@
-// Slider.tsx
-import React, { useState } from "react";
+import React from "react";
 import Card from "./card";
 
 import "@/styles/slider.css"; // Import the CSS file for animations
