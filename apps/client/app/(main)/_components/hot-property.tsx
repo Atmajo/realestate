@@ -12,7 +12,7 @@ const HotProperty = () => {
       <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
         <Marquee pauseOnHover className="[--duration:20s]">
           {propertydata.map((data) => (
-            <PropertyCard {...data} />
+            <PropertyCard {...data} key={data.id} />
           ))}
         </Marquee>
       </div>
