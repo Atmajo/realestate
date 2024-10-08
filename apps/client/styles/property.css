@@ -7,7 +7,7 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-  
+
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
@@ -26,28 +26,12 @@
   margin-right: auto;
 }
 
-.marquee-container {
+.image-container {
+  position: relative;
   width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
+  height: 100vh /* Set a fixed height or use a responsive unit like vh */
 }
 
-.marquee {
-  display: flex;
-  animation: marquee 25s linear infinite;
-}
-
-.card {
-  display: flex;
-  align-items: center;
-  margin-right: 1rem;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+.image-container img {
+  object-fit: cover;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AvatarReview from "./avatar-review";
 import BgLayer from "./bglayer";
 import { homeimageslider } from "@/datas";
@@ -17,23 +17,6 @@ import ScreenWrapper from "@/components/wrapper/screen-wrapper";
 import Separator from "./separator";
 
 const Home = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [slide, setSlide] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSlide(true);
-      setTimeout(() => {
-        setCurrentIndex(
-          (prevIndex) => (prevIndex + 1) % homeimageslider.length
-        );
-        setSlide(false);
-      }, 0);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [homeimageslider.length]);
-
   return (
     <section className="h-screen overflow-hidden">
       <ScreenWrapper>
@@ -64,8 +47,8 @@ const Home = () => {
             Investment Advisory
           </h1>
         </div>
-
-        <div className="marquee-container md:hidden w-full h-20 border border-white my-14 rounded-2xl bg-white/35 backdrop-blur-sm">
+        
+        <div className="marquee-container flex items-center md:hidden w-full h-20 border border-white my-14 rounded-2xl bg-white/35 backdrop-blur-sm">
           <div className="marquee">
             <div className="card">
               <h1 className="text-lg lg:text-xl font-semibold text-white w-full">
@@ -160,7 +143,7 @@ const Home = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {!slide && <BgLayer />}
+      <BgLayer />
     </section>
   );
 };
