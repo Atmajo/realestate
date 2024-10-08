@@ -6,10 +6,8 @@ export default function Page() {
   return (
     <>
       <Home />
-      <div className=" ">
-        <CompletedProperty />
-        <UnderConstruction />
-      </div>
+      <CompletedProperty />
+      <UnderConstruction />
     </>
   );
 }

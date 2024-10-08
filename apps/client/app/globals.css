@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  @apply bg-gradient-to-br from-white to-sky-200;
+  @apply bg-gradient-to-b from-white to-[#BDCFCE];
 }
 
 .home-bg {

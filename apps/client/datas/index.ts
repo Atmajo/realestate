@@ -48,6 +48,18 @@ export const homeimageslider = [
     id: 2,
     url: "/images/h2.png",
   },
+  {
+    id: 3,
+    url: "/images/h3.png",
+  },
+  {
+    id: 4,
+    url: "/images/h4.png",
+  },
+  {
+    id: 5,
+    url: "/images/h5.png",
+  },
 ];
 
 export const propertydata = [
@@ -207,9 +219,10 @@ export const underconstructiondata = [
   },
   {
     id: 2,
-    name: "Property 2",
-    location: "Location 2",
-    price: "Price 2",
+    name: "Brooke Heaven",
+    location: "Downtown, Newtown, Kolkata",
+    size: "2 BHK Apartment",
+    price: "₹45.19 L - 50.0 L",
     image: "/images/property2.png",
     startDate: new Date("2024-08-10"),
     endDate: new Date("2025-08-10"),
@@ -236,14 +249,6 @@ export const underconstructiondata = [
     link: "/property/4",
   },
 ];
-
-function calculateProgress(startDate: Date, endDate: Date): number {
-  const today = new Date();
-  const totalDuration = endDate.getTime() - startDate.getTime();
-  const elapsedDuration = today.getTime() - startDate.getTime();
-  const progress = Math.min((elapsedDuration / totalDuration) * 100, 100);
-  return progress;
-}
 
 export const socialdata = [
   {
