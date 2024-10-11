@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 type UserType = {
   access_token: string;
@@ -29,7 +30,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [profile, setProfile] = useState<ProfileType | null>(null);
-  
+
+  const router = useRouter();
+
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       const user: UserType = {
@@ -64,6 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .then((res) => {
           //   console.log(res.data);
           setProfile(res.data);
+          router.push("/");
         })
         .catch((err) => console.log(err));
     }
@@ -73,6 +77,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     googleLogout();
     setProfile(null);
     Cookies.remove("auth-token");
+    router.push("/sign-in");
   };
 
   return (

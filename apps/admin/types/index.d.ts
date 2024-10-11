@@ -29,3 +29,11 @@ interface ProfileType {
   picture: string;
   locale: string;
 }
+
+interface ProfAvatarProps {
+  src?: string;
+}
+
+interface WrapperProps {
+  children: React.ReactNode;
+}

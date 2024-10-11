@@ -2,26 +2,26 @@
 
 import React from "react";
 import { useAuth } from "@/app/_context/AuthContext";
-import SignInForm from "../form/sign-in-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import SignUpForm from "../form/sign-up-form";
 
 const Page = () => {
   const { login } = useAuth();
-
+  
   return (
     <section className="flex flex-col justify-center items-center h-screen">
-      <h1 className="text-4xl font-bold">Sign In</h1>
-      <Link href={"/sign-up"}>
+      <h1 className="text-4xl font-bold">Sign Up</h1>
+      <Link href={"/sign-in"}>
         <Button variant={"link"} className="text-sm">
-          Don&apos;t have an account?{" "}
-          <span className="text-[#346ebf]"> Sign Up</span>
+          Already have an account?{" "}
+          <span className="text-[#346ebf]"> Sign In</span>
         </Button>
       </Link>
       <div className="mt-10 flex md:flex-row flex-col items-center gap-5">
         <div className="w-80">
-          <SignInForm />
+          <SignUpForm />
         </div>
 
         <div className="hidden flex-col justify-center items-center h-full mx-4 md:flex">
@@ -47,7 +47,7 @@ const Page = () => {
                 width={32}
                 height={100}
               />
-              <h1>Sign In With Google</h1>
+              <h1>Sign Up With Google</h1>
             </div>
           </Button>
         </div>
