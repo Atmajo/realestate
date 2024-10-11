@@ -11,7 +11,7 @@ const Mainlayout = ({ children }: MainLayoutProps) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
       <AuthProvider>
-        <main className="flex">
+        <main className="flex bg-gray-400">
           <Navbar />
           <Sidebar />
           <Wrapper>{children}</Wrapper>
