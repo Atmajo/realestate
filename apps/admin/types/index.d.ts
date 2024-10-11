@@ -30,10 +30,38 @@ interface ProfileType {
   locale: string;
 }
 
+interface SignUpProps {
+  name?: string;
+  email: string;
+  password: string;
+}
+
+interface SignInProps {
+  email: string;
+  password: string;
+}
+
 interface ProfAvatarProps {
   src?: string;
 }
 
 interface WrapperProps {
   children: React.ReactNode;
+}
+
+interface AuthState {
+  user: any; // Adjust this type based on your user object structure
+  token: string | null;
+  loading: boolean;
+  error: string | null; // Can be string or null
+}
+
+interface Property {
+  id: string;
+  project: string;
+  type: string;
+  possession: string;
+  location?: string;
+  price: string;
+  status: string;
 }

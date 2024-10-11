@@ -14,18 +14,37 @@ import { SignInFormSchema } from "@/schema/sign-in-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "@/redux/store";
+import { signIn } from "@/redux/authSlice";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
+  const dispatch = useAppDispatch();
+  const { user, token, loading, error } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof SignInFormSchema>>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
   const onSubmit = (data: z.infer<typeof SignInFormSchema>) => {
-    console.log(data);
+    try {
+      dispatch(signIn(data));
+      if (!loading && !error) {
+        router.push("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -33,12 +52,10 @@ const SignInForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">
-                Username
-              </FormLabel>
+              <FormLabel className="text-lg">Email</FormLabel>
               <FormControl>
                 <Input placeholder="john_wick" type="text" {...field} />
               </FormControl>
@@ -51,9 +68,7 @@ const SignInForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">
-                Password
-              </FormLabel>
+              <FormLabel className="text-lg">Password</FormLabel>
               <FormControl>
                 <Input placeholder="******" type="password" {...field} />
               </FormControl>
@@ -66,8 +81,15 @@ const SignInForm = () => {
             <Button variant={"link"}>Forgot Password?</Button>
           </Link>
         </div>
-        <Button type="submit" className="w-full">
-          Sign In
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin mr-2" />
+              Signing In
+            </div>
+          ) : (
+            "Sign In"
+          )}
         </Button>
       </form>
     </Form>

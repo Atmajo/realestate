@@ -6,16 +6,20 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "@/components/shared/navbar";
 import Sidebar from "@/components/shared/sidebar";
 import Wrapper from "@/components/shared/wrapper";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 const Mainlayout = ({ children }: MainLayoutProps) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
       <AuthProvider>
-        <main className="flex bg-gray-400">
-          <Navbar />
-          <Sidebar />
-          <Wrapper>{children}</Wrapper>
-        </main>
+        <Provider store={store}>
+          <main className="flex bg-gray-400">
+            <Navbar />
+            <Sidebar />
+            <Wrapper>{children}</Wrapper>
+          </main>
+        </Provider>
       </AuthProvider>
     </GoogleOAuthProvider>
   );

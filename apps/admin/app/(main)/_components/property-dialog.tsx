@@ -15,7 +15,7 @@ const PropertyDialog = () => {
       <DialogTrigger className="border px-4 py-2 rounded-lg bg-[#313131] text-white">
         Add Property
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="h-[]">
         <DialogHeader>
           <DialogTitle>Create Property</DialogTitle>
         </DialogHeader>

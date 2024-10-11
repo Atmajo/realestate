@@ -24,8 +24,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "@/redux/store";
+import { Loader2 } from "lucide-react";
+import { createProperty } from "@/redux/propertySlice";
+import { toast } from "sonner";
 
 const PropertyForm = () => {
+  const dispatch = useAppDispatch();
+  const { loading, success, error } = useSelector(
+    (state: RootState) => state.property
+  );
+
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
     defaultValues: {
@@ -38,14 +48,19 @@ const PropertyForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof PropertyFormSchema>) {
-    console.log(format(values.possession, "yyyy-MM-dd"));
+  async function onSubmit(propertyData: any) {
+    try {
+      await dispatch(createProperty(propertyData)).unwrap();
+      toast.success("Property created successfully");
+    } catch (error) {
+      toast.error("Failed to create property");
+    }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 h-full">
-        <div className="flex justify-between items-center gap-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
+        <div className="flex justify-between items-center gap-2 mt-2">
           <FormField
             control={form.control}
             name="project"
@@ -73,7 +88,7 @@ const PropertyForm = () => {
             )}
           />
         </div>
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex justify-between items-center gap-2 mt-2">
           <FormField
             control={form.control}
             name="price"
@@ -81,7 +96,7 @@ const PropertyForm = () => {
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ganges View" {...field} />
+                  <Input placeholder="Call to enquire" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,7 +109,7 @@ const PropertyForm = () => {
               <FormItem className="flex-1">
                 <FormLabel>Status</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ganges View" {...field} />
+                  <Input placeholder="Furnished" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,8 +154,15 @@ const PropertyForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-5">
-          Submit
+        <Button type="submit" className="w-full mt-5" disabled={loading}>
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin mr-2" />
+              Submitting
+            </div>
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Form>
