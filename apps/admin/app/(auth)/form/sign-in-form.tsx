@@ -19,6 +19,7 @@ import { RootState, useAppDispatch } from "@/redux/store";
 import { signIn } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const SignInForm = () => {
   const dispatch = useAppDispatch();
@@ -38,10 +39,12 @@ const SignInForm = () => {
 
   const onSubmit = (data: z.infer<typeof SignInFormSchema>) => {
     try {
-      dispatch(signIn(data));
-      if (!loading && !error) {
-        router.push("/");
-      }
+      dispatch(signIn(data)).then((action) => {
+        toast.success("Signed in successfully");
+        if (signIn.fulfilled.match(action)) {
+          router.push("/");
+        }
+      });
     } catch (err) {
       console.log(err);
     }

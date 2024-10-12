@@ -18,8 +18,12 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "@/redux/store";
 import { signUp } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const SignUpForm = () => {
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
   const { user, token, loading, error } = useSelector(
     (state: RootState) => state.auth
@@ -35,9 +39,18 @@ const SignUpForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof SignUpFormSchema>) => {
-    dispatch(signUp(data));
+    try {
+      dispatch(signUp(data)).then((action) => {
+        toast.success("Account created successfully");
+        if (signUp.fulfilled.match(action)) {
+          router.push("/sign-in");
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
-  
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
