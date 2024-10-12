@@ -12,7 +12,7 @@ import {
 import { Button } from "../ui/button";
 
 const Navbar = () => {
-  const { profile, logOut } = useAuth();
+  const { logOut } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 w-full px-5 py-5 h-20 border-b bg-white">
