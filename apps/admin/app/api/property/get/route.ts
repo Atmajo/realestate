@@ -8,9 +8,10 @@ export async function GET(req: Request) {
       properties: properties,
     });
   } catch (error) {
+    console.error("Error details:", error);
     return NextResponse.json({
       message: "Properties not found",
-      error,
+      error: error,
       success: false,
     });
   }
