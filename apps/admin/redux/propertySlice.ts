@@ -22,7 +22,7 @@ const initialState: PropertyState = {
 export const fetchProperties = createAsyncThunk(
   "property/fetchProperties",
   async () => {
-    const response = await axios.get("/api/property/get");
+    const response = await axios.post("/api/property/get");
     return response.data;
   }
 );
