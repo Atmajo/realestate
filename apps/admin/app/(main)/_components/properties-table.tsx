@@ -16,11 +16,12 @@ import {
   fetchProperties,
   deleteProperty,
   updateProperty,
-  createProperty,
 } from "@/redux/propertySlice";
 import { toast } from "sonner";
 
 const PropertiesTable = () => {
+  const [data, setData] = useState<Property[] | null>(null);
+
   const dispatch = useAppDispatch();
   const { properties, loading, error, success } = useSelector(
     (state: RootState) => state.property
@@ -28,12 +29,12 @@ const PropertiesTable = () => {
 
   useEffect(() => {
     dispatch(fetchProperties());
-  }, [dispatch]);
+  }, [dispatch, fetchProperties]);
 
   useEffect(() => {
-    properties;
+    setData(properties);
   }, [properties]);
-  
+
   async function handleDelete(id: string) {
     try {
       await dispatch(deleteProperty(id)).unwrap();
@@ -79,26 +80,27 @@ const PropertiesTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {properties.map((property) => (
-          <TableRow key={property.id}>
-            <TableCell>{property.project}</TableCell>
-            <TableCell>{property.type}</TableCell>
-            <TableCell>{property.possession}</TableCell>
-            <TableCell>{property.price}</TableCell>
-            <TableCell>{property.status}</TableCell>
-            <TableCell className="flex justify-start items-center gap-2">
-              <button className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg">
-                <Eye size={24} className="text-green-600" />
-              </button>
-              <button
-                className="flex justify-center items-center bg-orange-300 w-8 h-8 rounded-lg"
-                onClick={() => handleDelete(property.id)}
-              >
-                <Trash size={24} className="text-orange-600" />
-              </button>
-            </TableCell>
-          </TableRow>
-        ))}
+        {data &&
+          data.map((property) => (
+            <TableRow key={property.id}>
+              <TableCell>{property.project}</TableCell>
+              <TableCell>{property.type}</TableCell>
+              <TableCell>{property.possession}</TableCell>
+              <TableCell>{property.price}</TableCell>
+              <TableCell>{property.status}</TableCell>
+              <TableCell className="flex justify-start items-center gap-2">
+                <button className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg">
+                  <Eye size={24} className="text-green-600" />
+                </button>
+                <button
+                  className="flex justify-center items-center bg-orange-300 w-8 h-8 rounded-lg"
+                  onClick={() => handleDelete(property.id)}
+                >
+                  <Trash size={24} className="text-orange-600" />
+                </button>
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   );
