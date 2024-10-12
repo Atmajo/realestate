@@ -14,7 +14,7 @@ export async function POST(req: Request) {
         email: body.email,
       },
     });
-
+    
     if (user) {
       const res = await bcrypt.compare(body.password, user.password);
 
