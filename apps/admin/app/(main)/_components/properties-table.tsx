@@ -54,7 +54,7 @@ const PropertiesTable: React.FC = () => {
       </div>
     );
   }
-  
+
   if (properties.length === 0) {
     return (
       <p className="text-sm text-center font-light">No properties found.</p>
@@ -82,11 +82,7 @@ const PropertiesTable: React.FC = () => {
             <TableCell>{property.price}</TableCell>
             <TableCell>{property.status}</TableCell>
             <TableCell className="flex justify-start items-center gap-2">
-              <button
-                className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg"
-                onClick={() => handleUpdate(property)}
-                disabled={loading.updateProperty}
-              >
+              <button className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg">
                 <Eye size={24} className="text-green-600" />
               </button>
               <button
