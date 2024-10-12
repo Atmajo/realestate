@@ -8,7 +8,8 @@ import React from "react";
 
 const Sidebar = () => {
   const pathname = usePathname();
-
+  console.log(pathname);
+  
   return (
     <aside className="flex flex-col gap-10 bg-white border-r  mt-20 py-5 w-56 h-screen">
       <h1 className="font-light px-7 text-gray-400">Navigations</h1>

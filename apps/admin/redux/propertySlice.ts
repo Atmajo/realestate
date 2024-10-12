@@ -1,35 +1,53 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Define the state interface for the slice
 interface PropertyState {
   property: Property | null;
-  properties: Property[] | null;
-  loading: boolean;
-  success: boolean;
-  error: string | null;
+  properties: Property[];
+  loading: {
+    fetchProperties: boolean;
+    createProperty: boolean;
+    updateProperty: boolean;
+    deleteProperty: boolean;
+  };
+  success: {
+    createProperty: boolean;
+    updateProperty: boolean;
+    deleteProperty: boolean;
+  };
+  error: {
+    fetchProperties: string | null;
+    createProperty: string | null;
+    updateProperty: string | null;
+    deleteProperty: string | null;
+  };
 }
 
-// Initial state
 const initialState: PropertyState = {
   property: null,
-  properties: null,
-  loading: false,
-  success: false,
-  error: null,
+  properties: [],
+  loading: {
+    fetchProperties: false,
+    createProperty: false,
+    updateProperty: false,
+    deleteProperty: false,
+  },
+  success: {
+    createProperty: false,
+    updateProperty: false,
+    deleteProperty: false,
+  },
+  error: {
+    fetchProperties: null,
+    createProperty: null,
+    updateProperty: null,
+    deleteProperty: null,
+  },
 };
-
-export const fetchProperties = createAsyncThunk(
-  "property/fetchProperties",
-  async () => {
-    const response = await axios.post("/api/property/get");
-    return response.data;
-  }
-);
 
 export const createProperty = createAsyncThunk(
   "property/create",
-  async (propertyData: any, { rejectWithValue }) => {
+  async (propertyData: Omit<Property, "id">, { rejectWithValue }) => {
     try {
       const response = await axios.post("/api/property/add", propertyData);
       return response.data;
@@ -55,6 +73,20 @@ export const updateProperty = createAsyncThunk(
   }
 );
 
+export const fetchProperties = createAsyncThunk(
+  "property/fetchProperties",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/api/property/get");
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch properties"
+      );
+    }
+  }
+);
+
 export const deleteProperty = createAsyncThunk(
   "property/delete",
   async (propertyId: string, { rejectWithValue }) => {
@@ -75,110 +107,115 @@ const propertySlice = createSlice({
   name: "property",
   initialState,
   reducers: {
-    resetState: (state) => {
-      state.property = null;
-      state.properties = null;
-      state.loading = false;
-      state.success = false;
-      state.error = null;
+    resetSuccess: (state) => {
+      state.success = {
+        createProperty: false,
+        updateProperty: false,
+        deleteProperty: false,
+      };
+    },
+    resetError: (state) => {
+      state.error = {
+        fetchProperties: null,
+        createProperty: null,
+        updateProperty: null,
+        deleteProperty: null,
+      };
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProperties.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProperties.fulfilled, (state, action) => {
-        state.loading = false;
-        state.properties = action.payload.properties;
-      })
-      .addCase(fetchProperties.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message!;
-      });
-
-    builder
       .addCase(createProperty.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
+        state.loading.createProperty = true;
+        state.success.createProperty = false;
+        state.error.createProperty = null;
       })
       .addCase(
         createProperty.fulfilled,
         (state, action: PayloadAction<Property>) => {
-          state.loading = false;
-          state.success = true;
-          state.property = action.payload;
-          if (state.properties) {
-            state.properties.push(action.payload);
-          } else {
-            state.properties = [action.payload];
-          }
-          state.error = null;
+          state.loading.createProperty = false;
+          state.success.createProperty = true;
+          state.properties.push(action.payload);
+          state.error.createProperty = null;
         }
       )
       .addCase(createProperty.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload as string;
+        state.loading.createProperty = false;
+        state.success.createProperty = false;
+        state.error.createProperty = action.payload as string;
+      });
+
+    builder
+      .addCase(fetchProperties.pending, (state) => {
+        state.loading.fetchProperties = true;
+        state.error.fetchProperties = null;
+      })
+      .addCase(
+        fetchProperties.fulfilled,
+        (state, action: PayloadAction<{ properties: Property[] }>) => {
+          state.loading.fetchProperties = false;
+          state.properties = action.payload.properties;
+        }
+      )
+      .addCase(fetchProperties.rejected, (state, action) => {
+        state.loading.fetchProperties = false;
+        state.error.fetchProperties = action.payload as string;
       });
 
     builder
       .addCase(updateProperty.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
+        state.loading.updateProperty = true;
+        state.success.updateProperty = false;
+        state.error.updateProperty = null;
       })
       .addCase(
         updateProperty.fulfilled,
         (state, action: PayloadAction<Property>) => {
-          state.loading = false;
-          state.success = true;
+          state.loading.updateProperty = false;
+          state.success.updateProperty = true;
           state.property = action.payload;
-          if (state.properties) {
-            const index = state.properties.findIndex(
-              (p) => p.id === action.payload.id
-            );
-            if (index !== -1) {
-              state.properties[index] = action.payload;
-            }
+          const index = state.properties.findIndex(
+            (p) => p.id === action.payload.id
+          );
+          if (index !== -1) {
+            state.properties[index] = action.payload;
           }
-          state.error = null;
+          state.error.updateProperty = null;
         }
       )
       .addCase(updateProperty.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload as string;
+        state.loading.updateProperty = false;
+        state.success.updateProperty = false;
+        state.error.updateProperty = action.payload as string;
       });
 
     builder
       .addCase(deleteProperty.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-        state.error = null;
+        state.loading.deleteProperty = true;
+        state.success.deleteProperty = false;
+        state.error.deleteProperty = null;
       })
       .addCase(
         deleteProperty.fulfilled,
         (state, action: PayloadAction<{ id: string }>) => {
-          state.loading = false;
-          state.success = true;
-          state.error = null;
-          if (state.properties) {
-            state.properties = state.properties.filter(
-              (property) => property.id !== action.payload.id
-            );
+          state.loading.deleteProperty = false;
+          state.success.deleteProperty = true;
+          state.properties = state.properties.filter(
+            (property) => property.id !== action.payload.id
+          );
+          if (state.property && state.property.id === action.payload.id) {
+            state.property = null;
           }
+          state.error.deleteProperty = null;
         }
       )
       .addCase(deleteProperty.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload as string;
+        state.loading.deleteProperty = false;
+        state.success.deleteProperty = false;
+        state.error.deleteProperty = action.payload as string;
       });
   },
 });
 
-export const { resetState } = propertySlice.actions;
+export const { resetSuccess, resetError } = propertySlice.actions;
 export default propertySlice.reducer;

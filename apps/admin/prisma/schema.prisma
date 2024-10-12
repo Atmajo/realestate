@@ -15,11 +15,55 @@ model User {
 }
 
 model Property {
-  id         String  @id @default(uuid()) @map("_id")
-  project    String
-  type       String
-  possession String
-  location   String?
-  price      String
-  status     String
+  id             String          @id @default(uuid()) @map("_id")
+  name           String
+  type           String
+  status         String
+  place          String?
+  company        String?
+  size           String?
+  price          String?
+  image          String[]
+  insideImg      String[]
+  desc           String?
+  startDate      String?
+  possession     String
+  link           String?
+  specifications Specifications?
+  features       Feature[]
+  location       Location?
+}
+
+model Specifications {
+  id          String   @id @default(uuid()) @map("_id")
+  plotSize    String?
+  builtUpArea String?
+  bedrooms    Int?
+  propertyId  String   @unique
+  property    Property @relation(fields: [propertyId], references: [id])
+}
+
+model Feature {
+  id         String   @id @default(uuid()) @map("_id")
+  name       String?
+  icon       String?
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Location {
+  id         String         @id @default(uuid()) @map("_id")
+  desc       String?
+  url        String?
+  data       LocationData[]
+  propertyId String         @unique
+  property   Property       @relation(fields: [propertyId], references: [id])
+}
+
+model LocationData {
+  id         String   @id @default(uuid()) @map("_id")
+  name       String?
+  time       String?
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
 }

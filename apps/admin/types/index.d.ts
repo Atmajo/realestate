@@ -58,10 +58,17 @@ interface AuthState {
 
 interface Property {
   id: string;
-  project: string;
+  name: string;
   type: string;
-  possession: string;
-  location?: string;
-  price: string;
   status: string;
+  possession: string;
+  price: string;
+  place?: string;
+  company?: string;
+  size?: string;
+  image?: string[];
+  insideImg?: string[];
+  desc?: string;
+  startDate?: string;
+  link?: string;
 }
