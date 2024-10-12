@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export async function POST(req: Request) {
   const body = await req.json();
-
+  
   const JWT_SECRET = process.env.JWT_SECRET!;
 
   try {
