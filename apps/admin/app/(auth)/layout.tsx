@@ -7,7 +7,7 @@ import { store } from "@/redux/store";
 const Authlayout = ({ children }: AuthLayoutProps) => {
   return (
     <Provider store={store}>
-      <main className="flex flex-col justify-center items-center">
+      <main className="flex flex-col justify-center items-center bg-white">
         {children}
       </main>
     </Provider>

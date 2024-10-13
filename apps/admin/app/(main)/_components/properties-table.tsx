@@ -18,13 +18,14 @@ import {
   updateProperty,
 } from "@/redux/propertySlice";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const PropertiesTable: React.FC = () => {
   const dispatch = useAppDispatch();
   const { properties, loading, error } = useSelector(
     (state: RootState) => state.property
   );
-
+  
   useEffect(() => {
     dispatch(fetchProperties());
   }, [dispatch]);
@@ -82,9 +83,11 @@ const PropertiesTable: React.FC = () => {
             <TableCell>{property.price}</TableCell>
             <TableCell>{property.status}</TableCell>
             <TableCell className="flex justify-start items-center gap-2">
-              <button className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg">
-                <Eye size={24} className="text-green-600" />
-              </button>
+              <Link href={`/properties/${property.id}`}>
+                <button className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg">
+                  <Eye size={24} className="text-green-600" />
+                </button>
+              </Link>
               <button
                 className="flex justify-center items-center bg-orange-300 w-8 h-8 rounded-lg"
                 onClick={() => handleDelete(property.id)}

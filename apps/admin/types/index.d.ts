@@ -30,6 +30,12 @@ interface ProfileType {
   locale: string;
 }
 
+interface PropertyViewProps {
+  params: {
+    propertyId: string;
+  };
+}
+
 interface SignUpProps {
   name?: string;
   email: string;

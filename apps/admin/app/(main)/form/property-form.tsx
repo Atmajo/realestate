@@ -97,6 +97,7 @@ const PropertyForm = () => {
       console.log(error);
     }
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
@@ -106,63 +107,71 @@ const PropertyForm = () => {
               <CardHeader>
                 <CardTitle>Details</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-wrap justify-between items-center gap-2">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Project <span className="text-red-600">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ganges View" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormLabel>
-                        Type <span className="text-red-600">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="4BHK Villa" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="place"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormLabel>Place</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Goa" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormLabel>Company</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Naturals" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <CardContent className="flex flex-col justify-between items-center gap-2">
+                <div className="flex gap-2">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Project <span className="text-red-600">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Ganges View"
+                            className=""
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormLabel>
+                          Type <span className="text-red-600">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="4BHK Villa" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <FormField
+                    control={form.control}
+                    name="place"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormLabel>Place</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Goa" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormLabel>Company</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Naturals" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </CardContent>
             </Card>
             <Card className="w-full">
@@ -170,7 +179,7 @@ const PropertyForm = () => {
                 <CardTitle>About</CardTitle>
               </CardHeader>
               <CardContent className="space-y-5">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center gap-2">
                   <FormField
                     control={form.control}
                     name="price"
@@ -191,9 +200,7 @@ const PropertyForm = () => {
                     name="size"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>
-                          Size
-                        </FormLabel>
+                        <FormLabel>Size</FormLabel>
                         <FormControl>
                           <Input placeholder="3000 Sq. Ft." {...field} />
                         </FormControl>
@@ -207,11 +214,12 @@ const PropertyForm = () => {
                   name="desc"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>
-                        Description
-                      </FormLabel>
+                      <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="The villa with luxury comfort" {...field} />
+                        <Textarea
+                          placeholder="The villa with luxury comfort"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -244,11 +252,11 @@ const PropertyForm = () => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="furnished">Furnished</SelectItem>
-                          <SelectItem value="fully-furnished">
+                          <SelectItem value="Furnished">Furnished</SelectItem>
+                          <SelectItem value="Fully Furnished">
                             Fully Furnished
                           </SelectItem>
-                          <SelectItem value="unfirnished">
+                          <SelectItem value="Unfirnished">
                             Unfirnished
                           </SelectItem>
                         </SelectContent>
@@ -259,10 +267,50 @@ const PropertyForm = () => {
                 />
                 <FormField
                   control={form.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-1 flex-col mt-2">
+                      <FormLabel>Start Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"secondary"}
+                              className={cn(
+                                "w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-white"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="possession"
                   render={({ field }) => (
                     <FormItem className="flex flex-1 flex-col mt-2">
-                      <FormLabel>Possession <span className="text-red-600">*</span></FormLabel>
+                      <FormLabel>
+                        Possession <span className="text-red-600">*</span>
+                      </FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>

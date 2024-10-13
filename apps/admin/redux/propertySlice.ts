@@ -6,6 +6,7 @@ interface PropertyState {
   properties: Property[];
   loading: {
     fetchProperties: boolean;
+    fetchProperty: boolean;
     createProperty: boolean;
     updateProperty: boolean;
     deleteProperty: boolean;
@@ -17,6 +18,7 @@ interface PropertyState {
   };
   error: {
     fetchProperties: string | null;
+    fetchProperty: string | null;
     createProperty: string | null;
     updateProperty: string | null;
     deleteProperty: string | null;
@@ -28,6 +30,7 @@ const initialState: PropertyState = {
   properties: [],
   loading: {
     fetchProperties: false,
+    fetchProperty: false,
     createProperty: false,
     updateProperty: false,
     deleteProperty: false,
@@ -39,6 +42,7 @@ const initialState: PropertyState = {
   },
   error: {
     fetchProperties: null,
+    fetchProperty: null,
     createProperty: null,
     updateProperty: null,
     deleteProperty: null,
@@ -87,6 +91,22 @@ export const fetchProperties = createAsyncThunk(
   }
 );
 
+export const fetchPropertyById = createAsyncThunk(
+  "property/fetchById",
+  async (propertyId: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/api/property/getById", {
+        id: propertyId,
+      });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch property"
+      );
+    }
+  }
+);
+
 export const deleteProperty = createAsyncThunk(
   "property/delete",
   async (propertyId: string, { rejectWithValue }) => {
@@ -117,6 +137,7 @@ const propertySlice = createSlice({
     resetError: (state) => {
       state.error = {
         fetchProperties: null,
+        fetchProperty: null,
         createProperty: null,
         updateProperty: null,
         deleteProperty: null,
@@ -160,6 +181,24 @@ const propertySlice = createSlice({
       .addCase(fetchProperties.rejected, (state, action) => {
         state.loading.fetchProperties = false;
         state.error.fetchProperties = action.payload as string;
+      });
+
+    builder
+      .addCase(fetchPropertyById.pending, (state) => {
+        state.loading.fetchProperty = true;
+        state.error.fetchProperty = null;
+      })
+      .addCase(
+        fetchPropertyById.fulfilled,
+        (state, action: PayloadAction<{ property: Property }>) => {
+          state.loading.fetchProperty = false;
+          state.property = action.payload.property;
+          state.error.fetchProperty = null;
+        }
+      )
+      .addCase(fetchPropertyById.rejected, (state, action) => {
+        state.loading.fetchProperty = false;
+        state.error.fetchProperty = action.payload as string;
       });
 
     builder
