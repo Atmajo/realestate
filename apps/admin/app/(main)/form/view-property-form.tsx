@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { fetchPropertyById, updateProperty } from "@/redux/propertySlice";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { PropertyFormSchema } from "@/schema/property-form";
@@ -16,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2 } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Eye, Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -26,11 +27,6 @@ import {
 import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "@/redux/store";
-import {
-  createProperty,
-  resetSuccess,
-  resetError,
-} from "@/redux/propertySlice";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -43,12 +39,15 @@ import {
 import { Label } from "@/components/ui/label";
 import { UploadButton } from "@/utils/uploadthing";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import ImageSlider from "../_components/image-slider";
 
-const PropertyForm = () => {
+const ViewPropertyForm = ({ propertyId }: { propertyId: string }) => {
+  const [images, setImages] = React.useState<string[]>([]);
+
   const dispatch = useAppDispatch();
-  const { loading, success, error } = useSelector(
-    (state: RootState) => state.property
-  );
+  const { loading } = useSelector((state: RootState) => state.property);
 
   const form = useForm<z.infer<typeof PropertyFormSchema>>({
     resolver: zodResolver(PropertyFormSchema),
@@ -69,19 +68,36 @@ const PropertyForm = () => {
   });
 
   useEffect(() => {
-    if (success.createProperty) {
-      toast.success("Property created successfully");
-      form.reset();
-      dispatch(resetSuccess());
-    }
-  }, [success.createProperty, dispatch, form]);
+    dispatch(fetchPropertyById(propertyId)).then((action) => {
+      const isValidDate = (date: any) => !isNaN(new Date(date).getTime());
 
-  useEffect(() => {
-    if (error.createProperty) {
-      toast.error(error.createProperty || "Failed to create property");
-      dispatch(resetError());
-    }
-  }, [error.createProperty, dispatch]);
+      form.reset({
+        ...action.payload?.property,
+        image: action.payload?.property.image || [],
+        insideImg: action.payload?.property.insideImg || [],
+        possession: isValidDate(action.payload?.property.possession)
+          ? new Date(action.payload?.property.possession)
+          : new Date(),
+        startDate: isValidDate(action.payload?.property.startDate)
+          ? new Date(action.payload?.property.startDate)
+          : new Date(),
+      });
+
+      console.log(images);
+    });
+  }, [dispatch]);
+
+  const handleDeleteImage = (index: number) => {
+    const currentImages: string[] = form.getValues("image") || [];
+    const newImages = currentImages.filter((_, i) => i !== index);
+    form.setValue("image", newImages);
+  };
+
+  const handleDeleteInsideImage = (index: number) => {
+    const currentInsideImages = form.getValues("insideImg") || [];
+    const newInsideImages = currentInsideImages.filter((_, i) => i !== index);
+    form.setValue("insideImg", newInsideImages);
+  };
 
   const onSubmit = async (propertyData: z.infer<typeof PropertyFormSchema>) => {
     try {
@@ -89,15 +105,27 @@ const PropertyForm = () => {
         ...propertyData,
         possession: format(propertyData.possession, "yyyy-MM-dd"),
         startDate: format(propertyData.startDate!, "yyyy-MM-dd"),
+        id: propertyId!,
       };
 
-      console.log(data);
-      await dispatch(createProperty(data)).unwrap();
+      await dispatch(updateProperty(data))
+        .unwrap()
+        .then(() => {
+          toast.success("Property updated successfully");
+        });
     } catch (error) {
       console.log(error);
+      toast.error("Error updating property");
     }
   };
 
+  if (loading.fetchProperty) {
+    return (
+      <section className="flex justify-center items-center h-full">
+        <Loader2 size={32} className="animate-spin" />
+      </section>
+    );
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
@@ -107,8 +135,8 @@ const PropertyForm = () => {
               <CardHeader>
                 <CardTitle>Details</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col justify-between gap-2">
-                <div className="flex gap-2 w-full">
+              <CardContent className="flex flex-col gap-2">
+                <div className="flex gap-2">
                   <FormField
                     control={form.control}
                     name="name"
@@ -120,7 +148,7 @@ const PropertyForm = () => {
                         <FormControl>
                           <Input
                             placeholder="Ganges View"
-                            className="w-full"
+                            className=""
                             {...field}
                           />
                         </FormControl>
@@ -137,14 +165,14 @@ const PropertyForm = () => {
                           Type <span className="text-red-600">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="4BHK Villa" className="w-full" {...field} />
+                          <Input placeholder="4BHK Villa" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className="flex gap-2 w-full">
+                <div className="flex gap-2">
                   <FormField
                     control={form.control}
                     name="place"
@@ -346,8 +374,23 @@ const PropertyForm = () => {
               </CardContent>
             </Card>
             <Card className="w-full">
-              <CardHeader>
+              <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle>Pictures</CardTitle>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="flex justify-center items-center bg-green-300 w-8 h-8 rounded-lg">
+                      <Eye size={24} className="text-green-600" />
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <ImageSlider
+                      images={form.getValues("image") || []}
+                      insideImages={form.getValues("insideImg") || []}
+                      onDeleteImage={handleDeleteImage}
+                      onDeleteInsideImage={handleDeleteInsideImage}
+                    />
+                  </DialogContent>
+                </Dialog>
               </CardHeader>
               <CardContent className="flex justify-between">
                 <div>
@@ -402,9 +445,9 @@ const PropertyForm = () => {
         <Button
           type="submit"
           className="mt-5"
-          disabled={loading.createProperty}
+          disabled={loading.updateProperty}
         >
-          {loading.createProperty ? (
+          {loading.updateProperty ? (
             <div className="flex justify-center items-center">
               <Loader2 className="animate-spin mr-2" />
               Submitting
@@ -418,4 +461,4 @@ const PropertyForm = () => {
   );
 };
 
-export default PropertyForm;
+export default ViewPropertyForm;

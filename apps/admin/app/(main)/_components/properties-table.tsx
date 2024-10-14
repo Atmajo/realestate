@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import {
   fetchProperties,
   deleteProperty,
-  updateProperty,
 } from "@/redux/propertySlice";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -36,15 +35,6 @@ const PropertiesTable: React.FC = () => {
       toast.success("Property deleted successfully");
     } catch (error) {
       toast.error("Failed to delete property");
-    }
-  };
-
-  const handleUpdate = async (property: Property) => {
-    try {
-      await dispatch(updateProperty(property)).unwrap();
-      toast.success("Property updated successfully");
-    } catch (error) {
-      toast.error("Failed to update property");
     }
   };
 

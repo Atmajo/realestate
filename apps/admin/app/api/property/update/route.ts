@@ -2,18 +2,16 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  const { id, ...body } = await req.json();
 
   try {
     const property = await prisma.property.update({
       where: {
-        id: body.id,
+        id: id,
       },
-      data: {
-        ...body,
-      },
+      data: body,
     });
-    
+
     return NextResponse.json({
       message: "Property updated",
       property: property,
