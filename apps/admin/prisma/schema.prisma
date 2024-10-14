@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
 model User {
   id       String  @id @default(uuid()) @map("_id")
   email    String  @unique
@@ -66,4 +72,13 @@ model LocationData {
   time       String?
   locationId String
   location   Location @relation(fields: [locationId], references: [id])
+}
+
+model Booking {
+  id        String        @id @default(uuid()) @map("_id")
+  name      String
+  email     String
+  phone     String
+  status    BookingStatus @default(PENDING)
+  createdAt DateTime      @default(now())
 }

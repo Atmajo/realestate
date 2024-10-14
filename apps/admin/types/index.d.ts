@@ -10,6 +10,13 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+interface User {
+  id?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+}
+
 interface UserType {
   access_token: string;
   authuser: string;
@@ -77,4 +84,12 @@ interface Property {
   desc?: string;
   startDate?: string;
   link?: string;
+}
+
+interface Booking {
+  id: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  status?: string;
 }

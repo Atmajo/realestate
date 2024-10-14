@@ -37,7 +37,7 @@ const PropertiesTable: React.FC = () => {
       toast.error("Failed to delete property");
     }
   };
-
+  
   if (loading.fetchProperties) {
     return (
       <div className="flex items-center justify-center mt-10">
@@ -45,13 +45,13 @@ const PropertiesTable: React.FC = () => {
       </div>
     );
   }
-
+  
   if (properties.length === 0) {
     return (
-      <p className="text-sm text-center font-light">No properties found.</p>
+      <p className="text-sm text-center font-light mt-5">No properties found.</p>
     );
   }
-
+  
   return (
     <Table className="p-4 rounded-xl my-5">
       <TableHeader>

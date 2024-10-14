@@ -10,9 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const Navbar = () => {
-  const { logOut } = useAuth();
+  const { logOut, user } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 w-full px-5 py-5 h-20 border-b bg-white">
@@ -26,10 +27,18 @@ const Navbar = () => {
             <DropdownMenuContent className="mr-1 mt-5">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/profile/${user?.id}`}>Profile</Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Button onClick={logOut} variant={"secondary"} className="w-full">Log Out</Button>
+                <Button
+                  onClick={logOut}
+                  variant={"secondary"}
+                  className="w-full"
+                >
+                  Log Out
+                </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

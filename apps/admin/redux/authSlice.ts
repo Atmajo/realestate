@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 
 // Initial state
 const initialState: AuthState = {
   user: null,
-  token: null,
+  token: Cookies.get("auth-token") || null, // Persist the token
   loading: false,
   error: null,
 };
@@ -47,6 +46,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.error = null;
+      Cookies.remove("auth-token"); // Remove token from cookies on logout
     },
   },
   extraReducers: (builder) => {
@@ -59,7 +59,6 @@ const authSlice = createSlice({
       .addCase(
         signIn.fulfilled,
         (state: AuthState, action: PayloadAction<any>) => {
-          // Action payload typed as 'any'
           state.loading = false; // Fulfilled state
           state.user = action.payload.user;
           state.token = action.payload.token;
@@ -105,8 +104,5 @@ const authSlice = createSlice({
   },
 });
 
-// Export the action creators
 export const { logout } = authSlice.actions;
-
-// Export the reducer
 export default authSlice.reducer;
