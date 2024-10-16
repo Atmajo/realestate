@@ -101,7 +101,7 @@ const PropertyForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="h-full">
-        <div className="flex justify-between gap-5">
+        <div className="flex justify-between gap-5 h-full">
           <div className="flex flex-col items-center gap-5 w-full">
             <Card className="w-full">
               <CardHeader>
@@ -137,7 +137,11 @@ const PropertyForm = () => {
                           Type <span className="text-red-600">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="4BHK Villa" className="w-full" {...field} />
+                          <Input
+                            placeholder="4BHK Villa"
+                            className="w-full"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -228,7 +232,7 @@ const PropertyForm = () => {
               </CardContent>
             </Card>
           </div>
-          <div className="flex flex-col items-center gap-5 w-full">
+          <div className="flex flex-col items-end gap-5 w-full">
             <Card className="w-full">
               <CardHeader>
                 <CardTitle>Status</CardTitle>
@@ -396,23 +400,25 @@ const PropertyForm = () => {
                 </div>
               </CardContent>
             </Card>
+
+            <div className="flex flex-row justify-end items-end">
+              <Button
+                type="submit"
+                className=""
+                disabled={loading.createProperty}
+              >
+                {loading.createProperty ? (
+                  <div className="flex justify-center items-center">
+                    <Loader2 className="animate-spin mr-2" />
+                    Submitting
+                  </div>
+                ) : (
+                  "Submit"
+                )}
+              </Button>
+            </div>
           </div>
         </div>
-
-        <Button
-          type="submit"
-          className="mt-5"
-          disabled={loading.createProperty}
-        >
-          {loading.createProperty ? (
-            <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin mr-2" />
-              Submitting
-            </div>
-          ) : (
-            "Submit"
-          )}
-        </Button>
       </form>
     </Form>
   );
