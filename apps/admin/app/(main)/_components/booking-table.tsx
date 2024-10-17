@@ -115,10 +115,10 @@ const BookingTable = () => {
   const currentBookings = localBookings.slice(startIndex, endIndex);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow overflow-auto h-full">
-        <Table className="p-4 rounded-xl my-5">
-          <TableHeader>
+    <div className="flex flex-col h-full max-h-[calc(100vh-200px)]">
+      <div className="flex-grow overflow-auto">
+        <Table className="relative">
+          <TableHeader className="sticky top-0 bg-white z-10">
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
@@ -176,7 +176,7 @@ const BookingTable = () => {
           </TableBody>
         </Table>
       </div>
-      <div className="mt-auto pt-4 pb-4">
+      <div className="mt-4 sticky bottom-0 bg-white pt-4 pb-4">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
